@@ -53,25 +53,20 @@ func Fetch(url *url.URL) (string, []*url.URL, error) {
 		case tt == html.StartTagToken:
 			shouldRead = is_text_token(tkn.Token())
 		case tt == html.TextToken:
-			t := tkn.Token()
-
 			if shouldRead {
-				body = body + t.Data
+				body = body + tkn.Token().Data
 			}
 		case tt == html.EndTagToken:
-			if shouldRead {
-				shouldRead = !is_text_token(tkn.Token())
-
-				if !shouldRead {
-					body = body + "\n"
-				}
-			} else {
+			if shouldRead && is_text_token(tkn.Token()) {
 				shouldRead = false
+				body = body + "\n"
 			}
 		}
 	}
 }
 
 func is_text_token(token html.Token) bool {
-	return token.Data == "p" || token.Data == "li" || token.Data == "span" || strings.HasPrefix(token.Data, "h")
+	println(token.String())
+	// TODO: this doesn't seem to work very well for nested data. e.g. <B> in <p> (WRITE tests)
+	return token.Data == "p" || token.Data == "b" || strings.HasPrefix(token.Data, "h")
 }

@@ -11,7 +11,7 @@ import (
 func main() {
 	zerolog.SetGlobalLevel(zerolog.WarnLevel)
 
-	baseUrl, err := url.Parse("https://blog.logrocket.com/5-structured-logging-packages-for-go")
+	baseUrl, err := url.Parse("https://www.bbc.co.uk/news/uk-england-merseyside-64454778")
 
 	if err != nil {
 		panic(err)
