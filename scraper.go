@@ -1,22 +1,27 @@
 package main
 
 import (
-	"fmt"
 	"net/url"
+	"web-scraper/crawler"
 
 	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
 func main() {
 	zerolog.SetGlobalLevel(zerolog.WarnLevel)
 
-	baseUrl, err := url.Parse("https://google.com")
+	baseUrl, err := url.Parse("https://blog.logrocket.com/5-structured-logging-packages-for-go")
 
 	if err != nil {
 		panic(err)
 	}
 
-	resp, err := get_site_rules(baseUrl)
-	fmt.Println(resp.allowedPages)
-	// fmt.Println(resp.disallowedPages)
+	body, urls, err := crawler.Fetch(baseUrl)
+
+	if err != nil {
+		log.Error().Msg(err.Error())
+	}
+
+	println(body, urls)
 }
